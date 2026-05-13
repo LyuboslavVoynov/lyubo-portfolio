@@ -1,88 +1,626 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lyubo Voynov | AI & Operations Automation</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lyubo Voynov — AI & Operations Automation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --coral: #FF5A5F; --coral-dark: #E0484D;
+  --navy: #0a0f1e; --navy-mid: #111827; --navy-light: #1a2235;
+  --muted: #9CA3AF; --white: #FFFFFF;
+  --border: rgba(255,255,255,0.08);
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: var(--white); overflow-x: hidden; cursor: none; }
+
+.cursor { width: 10px; height: 10px; background: var(--coral); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .2s, height .2s; }
+.cursor-ring { width: 34px; height: 34px; border: 1.5px solid rgba(255,90,95,0.5); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all .15s ease; }
+.cursor.hover { width: 18px; height: 18px; }
+.cursor-ring.hover { width: 50px; height: 50px; border-color: var(--coral); }
+body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.4; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; transition: all .4s ease; }
+nav.scrolled { background: rgba(10,15,30,0.94); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 14px 48px; }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; color: var(--white); text-decoration: none; }
+.nav-logo span { color: var(--coral); }
+.nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: color .2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-cta { background: var(--coral) !important; color: var(--white) !important; padding: 10px 22px; border-radius: 100px; font-weight: 500 !important; transition: background .2s !important; }
+.nav-cta:hover { background: var(--coral-dark) !important; }
+
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 140px 48px 60px; position: relative; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(255,90,95,0.08) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 80% 80%, rgba(99,102,241,0.06) 0%, transparent 60%); }
+.hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 60px 60px; }
+.hero-content { position: relative; z-index: 2; max-width: 760px; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,90,95,0.1); border: 1px solid rgba(255,90,95,0.25); border-radius: 100px; padding: 6px 16px; font-size: .78rem; font-weight: 500; color: var(--coral); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 28px; opacity: 0; transform: translateY(20px); animation: fadeUp .6s ease .2s forwards; }
+.hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--coral); border-radius: 50%; animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 6vw, 5.2rem); font-weight: 600; line-height: 1.08; letter-spacing: -.03em; margin-bottom: 10px; opacity: 0; transform: translateY(30px); animation: fadeUp .7s ease .35s forwards; }
+.hero h1 em { font-style: italic; color: var(--coral); }
+.hero-sub { font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 300; color: var(--muted); line-height: 1.65; margin-bottom: 44px; max-width: 540px; opacity: 0; transform: translateY(30px); animation: fadeUp .7s ease .5s forwards; }
+.hero-actions { display: flex; gap: 16px; align-items: center; margin-bottom: 56px; opacity: 0; transform: translateY(30px); animation: fadeUp .7s ease .65s forwards; }
+.btn-primary { background: var(--coral); color: var(--white); padding: 14px 30px; border-radius: 100px; text-decoration: none; font-size: .95rem; font-weight: 500; transition: all .25s ease; display: inline-flex; align-items: center; gap: 8px; }
+.btn-primary:hover { background: var(--coral-dark); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255,90,95,0.3); }
+.btn-secondary { color: var(--white); text-decoration: none; font-size: .95rem; font-weight: 400; display: inline-flex; align-items: center; gap: 8px; opacity: .65; transition: opacity .2s; }
+.btn-secondary:hover { opacity: 1; }
+.btn-arrow { transition: transform .2s; }
+.btn-primary:hover .btn-arrow, .btn-secondary:hover .btn-arrow { transform: translateX(3px); }
+
+.stats-row { position: relative; z-index: 2; display: flex; gap: 0; border-top: 1px solid var(--border); padding-top: 40px; opacity: 0; animation: fadeUp .7s ease .85s forwards; max-width: 600px; }
+.stat-item { flex: 1; padding-right: 36px; border-right: 1px solid var(--border); margin-right: 36px; }
+.stat-item:last-child { border-right: none; margin-right: 0; }
+.stat-number { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 600; line-height: 1; display: flex; align-items: baseline; gap: 3px; }
+.stat-number sup { font-size: 1rem; color: var(--coral); font-family: 'DM Sans', sans-serif; font-weight: 500; }
+.stat-label { font-size: .82rem; color: var(--muted); margin-top: 6px; font-weight: 300; }
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+section { padding: 96px 48px; position: relative; }
+.section-label { font-size: .75rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--coral); margin-bottom: 16px; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; margin-bottom: 20px; }
+.section-desc { color: var(--muted); font-size: 1.05rem; font-weight: 300; line-height: 1.7; max-width: 520px; }
+
+/* FEATURED PROJECT */
+.project-section { background: var(--navy-mid); border-top: 1px solid var(--border); }
+.project-section .inner { max-width: 1100px; margin: 0 auto; }
+.project-card { background: var(--navy-light); border: 1px solid var(--border); border-radius: 28px; padding: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; position: relative; overflow: hidden; margin-top: 48px; }
+.project-card::after { content: ''; position: absolute; top: -80px; right: -80px; width: 320px; height: 320px; background: radial-gradient(circle, rgba(255,90,95,0.08), transparent 70%); pointer-events: none; }
+.project-eyebrow { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.pill { background: rgba(255,90,95,0.1); border: 1px solid rgba(255,90,95,0.2); color: var(--coral); font-size: .73rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; }
+.pill.blue { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.2); color: #818CF8; }
+.project-card h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 600; line-height: 1.2; letter-spacing: -.02em; margin-bottom: 16px; }
+.project-card .left > p { color: var(--muted); font-size: .95rem; line-height: 1.7; font-weight: 300; margin-bottom: 36px; }
+.metrics-row { display: flex; gap: 32px; }
+.metric-val { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 600; }
+.metric-val .up { color: var(--coral); }
+.metric-desc { font-size: .78rem; color: var(--muted); font-weight: 300; margin-top: 4px; }
+.right-visual { background: linear-gradient(135deg,rgba(255,90,95,0.06),rgba(99,102,241,0.04)); border: 1px solid var(--border); border-radius: 18px; padding: 32px; display: flex; flex-direction: column; gap: 12px; }
+.flow-step { display: flex; align-items: center; gap: 16px; padding: 14px 16px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--border); transition: all .3s; }
+.flow-step:hover { background: rgba(255,90,95,0.05); border-color: rgba(255,90,95,0.2); }
+.flow-step-num { width: 28px; height: 28px; border-radius: 8px; background: rgba(255,90,95,0.15); color: var(--coral); font-size: .75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.flow-step-text { font-size: .85rem; color: var(--white); font-weight: 400; }
+.flow-step-sub { font-size: .75rem; color: var(--muted); font-weight: 300; margin-top: 2px; }
+.flow-connector { width: 1px; height: 10px; background: linear-gradient(to bottom, var(--coral), transparent); margin-left: 28px; opacity: 0.3; }
+
+/* DIAGRAM */
+.diagram-section { background: var(--navy); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.diagram-section .inner { max-width: 1200px; margin: 0 auto; }
+.diagram-header { text-align: center; margin-bottom: 60px; }
+.diagram-scroll-wrapper { overflow-x: auto; padding-bottom: 16px; }
+.diagram-scroll-wrapper::-webkit-scrollbar { height: 3px; }
+.diagram-scroll-wrapper::-webkit-scrollbar-thumb { background: var(--coral); border-radius: 4px; }
+.diagram-flow { display: flex; align-items: flex-start; min-width: 960px; padding: 20px 0; }
+.diagram-node { display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; opacity: 0; transform: translateY(24px); transition: all .5s ease; cursor: pointer; }
+.diagram-node.visible { opacity: 1; transform: translateY(0); }
+.node-icon-wrap { width: 76px; height: 76px; border-radius: 20px; background: linear-gradient(135deg, rgba(255,90,95,0.1), rgba(99,102,241,0.07)); border: 1px solid rgba(255,90,95,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; transition: all .3s ease; }
+.node-icon-wrap svg { width: 32px; height: 32px; }
+.diagram-node:hover .node-icon-wrap { background: linear-gradient(135deg, rgba(255,90,95,0.2), rgba(99,102,241,0.12)); border-color: var(--coral); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(255,90,95,0.2); }
+.node-icon-wrap.center-node { width: 84px; height: 84px; border-radius: 50%; background: linear-gradient(135deg, var(--coral), #ff8c5a); border: none; box-shadow: 0 0 40px rgba(255,90,95,0.4); }
+.node-click-hint { font-size: .63rem; color: rgba(255,90,95,0.45); text-align: center; margin-top: 3px; letter-spacing: .04em; transition: color .2s; }
+.diagram-node:hover .node-click-hint { color: var(--coral); }
+.node-title { font-size: .78rem; font-weight: 600; color: var(--white); text-align: center; margin-bottom: 4px; }
+.node-desc { font-size: .7rem; color: var(--muted); text-align: center; line-height: 1.5; max-width: 108px; font-weight: 300; }
+.diagram-arrow { display: flex; align-items: center; margin-top: 26px; color: rgba(255,90,95,0.45); flex-shrink: 0; padding: 0 4px; }
+.diagram-arrow svg { width: 20px; height: 20px; }
+
+/* POPUP */
+.node-popup { position: fixed; z-index: 800; background: #141d30; border: 1px solid rgba(255,90,95,0.3); border-radius: 20px; padding: 24px; width: 288px; box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,90,95,0.06); opacity: 0; transform: translateY(8px) scale(0.97); transition: opacity .22s ease, transform .22s ease; pointer-events: none; }
+.node-popup.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+.popup-title { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--coral); margin-bottom: 16px; padding-right: 24px; }
+.popup-tools { display: flex; flex-direction: column; gap: 8px; }
+.popup-tool { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: rgba(255,255,255,0.04); border-radius: 10px; border: 1px solid var(--border); transition: all .2s; }
+.popup-tool:hover { background: rgba(255,90,95,0.07); border-color: rgba(255,90,95,0.2); }
+.popup-tool-logo { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.popup-tool-logo svg { width: 22px; height: 22px; }
+.popup-tool-name { font-size: .84rem; font-weight: 500; color: var(--white); }
+.popup-tool-type { font-size: .72rem; color: var(--muted); font-weight: 300; }
+.popup-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--muted); font-size: 1rem; cursor: pointer; line-height: 1; transition: color .2s; }
+.popup-close:hover { color: var(--white); }
+.popup-overlay { position: fixed; inset: 0; z-index: 790; display: none; }
+.popup-overlay.active { display: block; }
+
+/* SERVICES */
+.services-section .inner { max-width: 1100px; margin: 0 auto; }
+.services-header { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; margin-bottom: 56px; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.service-card { background: var(--navy-light); border: 1px solid var(--border); border-radius: 20px; padding: 36px 32px; transition: all .35s ease; position: relative; overflow: hidden; }
+.service-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg,rgba(255,90,95,0.05),transparent); opacity: 0; transition: opacity .3s; }
+.service-card:hover { border-color: rgba(255,90,95,0.3); transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,0.3); }
+.service-card:hover::before { opacity: 1; }
+.service-icon { width: 52px; height: 52px; background: rgba(255,90,95,0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; transition: all .3s; }
+.service-icon svg { width: 26px; height: 26px; }
+.service-card:hover .service-icon { background: rgba(255,90,95,0.2); transform: scale(1.08); }
+.service-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 12px; }
+.service-card p { font-size: .88rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+.service-tag { display: inline-block; margin-top: 20px; font-size: .72rem; font-weight: 500; color: var(--coral); letter-spacing: .06em; text-transform: uppercase; border-top: 1px solid rgba(255,90,95,0.2); padding-top: 16px; width: 100%; }
+
+/* ABOUT */
+.about-section .inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: center; }
+.about-photo { width: 100%; aspect-ratio: 3/4; border-radius: 24px; background: linear-gradient(135deg, var(--navy-light), var(--navy-mid)); border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.about-photo svg { width: 64px; height: 64px; opacity: .25; }
+.about-photo span { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--muted); font-style: italic; }
+.about-content h2 { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 600; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 24px; }
+.about-content p { color: var(--muted); font-size: 1rem; line-height: 1.75; font-weight: 300; margin-bottom: 18px; }
+.skills-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.skill-pill { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--muted); font-size: .8rem; padding: 7px 16px; border-radius: 100px; transition: all .2s; }
+.skill-pill:hover { background: rgba(255,90,95,0.08); border-color: rgba(255,90,95,0.25); color: var(--white); }
+
+/* CTA */
+.cta-section { text-align: center; background: var(--navy-mid); border-top: 1px solid var(--border); overflow: hidden; position: relative; }
+.cta-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 600px; height: 400px; background: radial-gradient(ellipse, rgba(255,90,95,0.12), transparent 70%); pointer-events: none; }
+.cta-section .inner { position: relative; z-index: 2; max-width: 600px; margin: 0 auto; }
+.cta-section h2 { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 600; line-height: 1.1; letter-spacing: -.02em; margin-bottom: 20px; }
+.cta-section p { color: var(--muted); font-size: 1.05rem; line-height: 1.65; font-weight: 300; margin-bottom: 36px; }
+.cta-email { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--coral); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; font-style: italic; transition: opacity .2s; }
+.cta-email:hover { opacity: .7; }
+
+footer { padding: 32px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--muted); text-decoration: none; }
+.footer-logo span { color: var(--coral); }
+.footer-links { display: flex; gap: 28px; list-style: none; }
+.footer-links a { color: var(--muted); text-decoration: none; font-size: .85rem; transition: color .2s; }
+.footer-links a:hover { color: var(--white); }
+.footer-copy { font-size: .8rem; color: rgba(156,163,175,0.4); }
+
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.count { display: inline-block; }
+
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; } nav.scrolled { padding: 12px 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 20px 60px; }
+  .stats-row { flex-direction: column; gap: 20px; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 20px; padding-right: 0; margin-right: 0; }
+  .stat-item:last-child { border-bottom: none; }
+  section { padding: 72px 20px; }
+  .services-header { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .project-card { grid-template-columns: 1fr; gap: 40px; padding: 32px 20px; }
+  .about-section .inner { grid-template-columns: 1fr; gap: 40px; }
+  footer { flex-direction: column; gap: 20px; text-align: center; }
+}
+</style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="popup-overlay" id="popupOverlay"></div>
 
-    <div class="hero-bg"></div>
+<nav id="nav">
+  <a href="#" class="nav-logo">Lyubo <span>Voynov</span></a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+  </ul>
+</nav>
 
-    <header>
-        <div class="container header-flex">
-            <div class="header-text">
-                <h1>Lyubo Voynov</h1>
-                <p class="subtitle">Intelligent Workflows. Operational Excellence.</p>
-                <p class="tagline">Outcomes-first automation for customer operations and internal workflows</p>
-            </div>
-            <!-- Placeholder for your headshot as seen in Lyubo_Diagram_2.png -->
-            <div class="profile-circle"></div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Available for projects</div>
+    <h1>Intelligent<br>Workflows.<br><em>Real Results.</em></h1>
+    <p class="hero-sub">I help scaling companies transform customer operations through AI-powered automation, workflow redesign, and operational intelligence that actually moves the needle.</p>
+    <div class="hero-actions">
+      <a href="#work" class="btn-primary">View My Work <span class="btn-arrow">→</span></a>
+      <a href="#contact" class="btn-secondary">Let's talk <span class="btn-arrow">↗</span></a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-number"><span class="count" data-target="87">0</span><sup>%</sup></div>
+        <div class="stat-label">Reduction in resolution time</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number"><span class="count" data-target="53">0</span><sup>→81%</sup></div>
+        <div class="stat-label">CSAT score improvement</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">~£<span class="count" data-target="90">0</span><sup>k</sup></div>
+        <div class="stat-label">Annual savings delivered</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PROJECT (high on page, right after hero) -->
+<section class="project-section" id="work">
+  <div class="inner">
+    <div class="reveal">
+      <div class="section-label">Featured Work</div>
+      <h2 class="section-title">Case Study</h2>
+    </div>
+    <div class="project-card reveal">
+      <div class="left">
+        <div class="project-eyebrow">
+          <span class="pill">JustPark</span>
+          <span class="pill blue">Zendesk</span>
+          <span class="pill">AI Transformation</span>
         </div>
-    </header>
-
-    <main class="container">
-        
-        <section class="intro">
-            <div class="glass-card highlight">
-                <p>I help scaling companies improve customer operations and internal workflows through AI-powered automation systems, workflow redesign, and operational intelligence.</p>
-            </div>
-        </section>
-
-        <section class="outcomes">
-            <div class="outcome-grid">
-                <div class="stat-card">
-                    <span class="stat-label">Resolution Times</span>
-                    <strong class="stat-value">87% reduction</strong>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">CSAT Improvement</span>
-                    <strong class="stat-value">53% → 81%</strong>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Annual Savings</span>
-                    <strong class="stat-value">~£90k</strong>
-                </div>
-            </div>
-        </section>
-
-        <section class="services">
-            <h2 class="section-title">What I Help With</h2>
-            <div class="service-grid">
-                <div class="service-box">
-                    <div class="icon-glow purple"></div>
-                    <h4>AI-Enabled Workflow Automation</h4>
-                    <p>Automation that removes manual effort and creates reliable, scalable execution.</p>
-                </div>
-                <div class="service-box">
-                    <div class="icon-glow blue"></div>
-                    <h4>Customer Operations</h4>
-                    <p>Support workflow architecture, automation design, and AI-assisted operations that scale.</p>
-                </div>
-                <div class="service-box">
-                    <div class="icon-glow blue"></div>
-                    <h4>Operational Systems</h4>
-                    <p>From fragmented processes to structured systems with clear ownership and visibility.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="featured">
-            <h2 class="section-title">Featured Work</h2>
-            <div class="glass-card project">
-                <h3>JustPark × Zendesk — AI-Powered CX Transformation</h3>
-                <p>Operational redesign and AI-enabled workflow automation focused on improving customer operations and scaling support systems.</p>
-                <a href="#" class="btn-glow">View Project Details</a>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>voynov.lyuboslav@gmail.com • <a href="https://www.linkedin.com/in/lyubovoynov/">LinkedIn</a></p>
+        <h2>AI-Powered CX Transformation</h2>
+        <p>End-to-end operational redesign and AI-enabled workflow automation for JustPark's customer experience function — cutting resolution times, improving satisfaction, and delivering real cost efficiency through intelligent systems.</p>
+        <div class="metrics-row">
+          <div><div class="metric-val"><span class="up">87%</span></div><div class="metric-desc">Faster resolution</div></div>
+          <div><div class="metric-val">53→<span class="up">81</span></div><div class="metric-desc">CSAT improved</div></div>
+          <div><div class="metric-val">£<span class="up">90k</span></div><div class="metric-desc">Annual savings</div></div>
         </div>
-    </footer>
+      </div>
+      <div class="right-visual">
+        <div class="flow-step"><div class="flow-step-num">01</div><div><div class="flow-step-text">Audit & Diagnose</div><div class="flow-step-sub">Map workflows, identify friction points</div></div></div>
+        <div class="flow-connector"></div>
+        <div class="flow-step"><div class="flow-step-num">02</div><div><div class="flow-step-text">Design Automation Architecture</div><div class="flow-step-sub">AI-powered routing and triage systems</div></div></div>
+        <div class="flow-connector"></div>
+        <div class="flow-step"><div class="flow-step-num">03</div><div><div class="flow-step-text">Integrate & Deploy</div><div class="flow-step-sub">Connect Zendesk, LLMs, and cloud infra</div></div></div>
+        <div class="flow-connector"></div>
+        <div class="flow-step"><div class="flow-step-num">04</div><div><div class="flow-step-text">Measure & Optimise</div><div class="flow-step-sub">Continuous improvement via operational data</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- DIAGRAM -->
+<section class="diagram-section" id="workflow">
+  <div class="inner">
+    <div class="diagram-header reveal">
+      <div class="section-label">How it works</div>
+      <h2 class="section-title">From Systems to <em style="font-style:italic;color:var(--coral)">Outcomes</em></h2>
+      <p class="section-desc" style="margin:0 auto;text-align:center">Every piece of your stack, working in concert. <strong style="color:rgba(255,255,255,0.6);font-weight:400">Click any node</strong> to see the tools I work with.</p>
+    </div>
+    <div class="diagram-scroll-wrapper">
+      <div class="diagram-flow" id="diagramFlow">
+
+        <div class="diagram-node" data-node="crm">
+          <div class="node-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="4" width="20" height="16" rx="2.5" stroke="#7dd3fc" stroke-width="1.5"/>
+              <path d="M7 9h10M7 13h7" stroke="#7dd3fc" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="17" cy="13" r="1.2" fill="#7dd3fc"/>
+            </svg>
+          </div>
+          <div class="node-title">CRM / SaaS</div>
+          <div class="node-desc">Customer data &amp; business context</div>
+          <div class="node-click-hint">tap to explore ↑</div>
+        </div>
+        <div class="diagram-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+
+        <div class="diagram-node" data-node="llm">
+          <div class="node-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="#c084fc" stroke-width="1.5"/>
+              <path d="M9 9.5C9 8.12 10.12 7 11.5 7S14 8.12 14 9.5c0 1.2-.8 2.2-1.9 2.4L12 15" stroke="#c084fc" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="12" cy="17" r="1" fill="#c084fc"/>
+            </svg>
+          </div>
+          <div class="node-title">Agent / LLM</div>
+          <div class="node-desc">AI agents that reason and act</div>
+          <div class="node-click-hint">tap to explore ↑</div>
+        </div>
+        <div class="diagram-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+
+        <div class="diagram-node" data-node="cloud">
+          <div class="node-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M17.5 19H9a6 6 0 1 1 5.76-7.69A4.5 4.5 0 1 1 17.5 19z" stroke="#86efac" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="node-title">Cloud Provider</div>
+          <div class="node-desc">Scalable infra &amp; reliability</div>
+          <div class="node-click-hint">tap to explore ↑</div>
+        </div>
+        <div class="diagram-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+
+        <div class="diagram-node" data-node="api">
+          <div class="node-icon-wrap center-node">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 8l-4 4 4 4M17 8l4 4-4 4M14 4l-4 16"/>
+            </svg>
+          </div>
+          <div class="node-title">API Integrations</div>
+          <div class="node-desc">Connecting systems seamlessly</div>
+          <div class="node-click-hint">tap to explore ↑</div>
+        </div>
+        <div class="diagram-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+
+        <div class="diagram-node" data-node="automation">
+          <div class="node-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 3v3M12 18v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M3 12h3M18 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="3.5" stroke="#fbbf24" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="node-title">Automation</div>
+          <div class="node-desc">Eliminating manual effort</div>
+          <div class="node-click-hint">tap to explore ↑</div>
+        </div>
+        <div class="diagram-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+
+        <div class="diagram-node" data-node="data">
+          <div class="node-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none">
+              <ellipse cx="12" cy="5" rx="8" ry="3" stroke="#67e8f9" stroke-width="1.5"/>
+              <path d="M4 5v5c0 1.66 3.58 3 8 3s8-1.34 8-3V5" stroke="#67e8f9" stroke-width="1.5"/>
+              <path d="M4 10v5c0 1.66 3.58 3 8 3s8-1.34 8-3v-5" stroke="#67e8f9" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="node-title">Data &amp; Systems</div>
+          <div class="node-desc">Insights and structured action</div>
+          <div class="node-click-hint">tap to explore ↑</div>
+        </div>
+        <div class="diagram-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+
+        <div class="diagram-node" data-node="workflows">
+          <div class="node-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#FF5A5F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="node-title">Intelligent Workflows</div>
+          <div class="node-desc">Adaptive AI-powered ops</div>
+          <div class="node-click-hint">tap to explore ↑</div>
+        </div>
+        <div class="diagram-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+
+        <div class="diagram-node" data-node="outcome">
+          <div class="node-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="#4ade80" stroke-width="1.5"/>
+              <path d="M8 12l3 3 5-5" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="node-title">Operational Excellence</div>
+          <div class="node-desc">Better outcomes &amp; efficiency</div>
+          <div class="node-click-hint">tap to explore ↑</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="inner">
+    <div class="services-header">
+      <div class="reveal">
+        <div class="section-label">What I do</div>
+        <h2 class="section-title">Built for scale. Designed for impact.</h2>
+      </div>
+      <p class="section-desc reveal reveal-delay-1">I combine automation, AI, and operational strategy to help companies run smarter — not just faster.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF5A5F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <h3>AI-Enabled Workflow Automation</h3>
+        <p>Automation that removes manual effort and creates reliable, scalable execution across customer and internal operations.</p>
+        <span class="service-tag">Core offering</span>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF5A5F" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Customer Operations</h3>
+        <p>Support workflow architecture, automation design, and AI-assisted operations that scale — from triage to resolution to reporting.</p>
+        <span class="service-tag">High impact</span>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF5A5F" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M17.5 14v6M14 17h7"/></svg></div>
+        <h3>Operational Systems</h3>
+        <p>From fragmented processes to structured systems with clear ownership, visibility, and the metrics that actually matter.</p>
+        <span class="service-tag">Strategic</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="inner">
+    <div class="reveal">
+      <div class="about-photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Lyubo Voynov</span>
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="reveal"><div class="section-label">About</div><h2>Outcomes-first automation for operations teams.</h2></div>
+      <p class="reveal reveal-delay-1">I partner with scaling companies to redesign how their operations run — replacing manual, fragmented workflows with intelligent systems that deliver real, measurable outcomes.</p>
+      <p class="reveal reveal-delay-2">My approach combines deep operational understanding with hands-on AI implementation. I don't just recommend — I build, deploy, and optimise alongside your team until the results speak for themselves.</p>
+      <div class="skills-grid reveal reveal-delay-3">
+        <span class="skill-pill">Workflow Automation</span><span class="skill-pill">AI Integration</span><span class="skill-pill">Zendesk</span><span class="skill-pill">LLM Architecture</span><span class="skill-pill">Customer Operations</span><span class="skill-pill">Process Design</span><span class="skill-pill">API Integrations</span><span class="skill-pill">Cloud Infrastructure</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="inner">
+    <div class="reveal">
+      <div class="section-label">Get in touch</div>
+      <h2>Ready to build something that works?</h2>
+      <p>Whether you're dealing with manual overload, scaling pains, or a CX that needs an upgrade — let's talk about what's possible.</p>
+      <a href="mailto:voynov.lyuboslav@gmail.com" class="btn-primary" style="display:inline-flex;">Start a conversation <span class="btn-arrow">→</span></a>
+      <br>
+      <a href="mailto:voynov.lyuboslav@gmail.com" class="cta-email">voynov.lyuboslav@gmail.com ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="#" class="footer-logo">Lyubo <span>Voynov</span></a>
+  <ul class="footer-links">
+    <li><a href="#work">Work</a></li><li><a href="#workflow">Workflow</a></li><li><a href="#services">Services</a></li>
+    <li><a href="https://www.linkedin.com/in/lyubovoynov/" target="_blank">LinkedIn ↗</a></li>
+  </ul>
+  <span class="footer-copy">© 2026 Lyubo Voynov</span>
+</footer>
+
+<div class="node-popup" id="nodePopup">
+  <button class="popup-close" id="popupClose">✕</button>
+  <div class="popup-title" id="popupTitle"></div>
+  <div class="popup-tools" id="popupTools"></div>
+</div>
+
+<script>
+const nodeData = {
+  crm: {
+    title: 'CRM / SaaS Platforms',
+    tools: [
+      { name: 'Zendesk', type: 'Customer Support CRM', bg: '#03363D22', icon: `<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#03363D"/><path d="M16 9a7 7 0 0 1 7 7H9a7 7 0 0 1 7-7z" fill="#fff"/><path d="M16 23a7 7 0 0 1-7-7h14a7 7 0 0 1-7 7z" fill="#fff" opacity=".5"/></svg>` },
+      { name: 'Salesforce', type: 'Enterprise CRM', bg: '#00A1E022', icon: `<svg viewBox="0 0 32 32" fill="none"><ellipse cx="13" cy="16" rx="7" ry="8" fill="#00A1E0"/><ellipse cx="20" cy="13" rx="5.5" ry="6.5" fill="#00A1E0" opacity=".75"/><ellipse cx="25" cy="17" rx="4.5" ry="5.5" fill="#00A1E0" opacity=".5"/></svg>` },
+      { name: 'ServiceNow', type: 'IT Service Management', bg: '#62D84E22', icon: `<svg viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#62D84E"/><path d="M9 16l5 5 9-9" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
+      { name: 'HubSpot', type: 'Marketing & Sales CRM', bg: '#FF7A5922', icon: `<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="10" r="4" fill="#FF7A59"/><circle cx="24" cy="20" r="3.5" fill="#FF7A59"/><circle cx="8" cy="20" r="3.5" fill="#FF7A59"/><path d="M16 14v5M16 19l7.5 3.5M16 19l-7.5 3.5" stroke="#FF7A59" stroke-width="1.5" stroke-linecap="round"/></svg>` },
+    ]
+  },
+  llm: {
+    title: 'AI Agents & LLMs',
+    tools: [
+      { name: 'Claude', type: 'Anthropic · Reasoning & Analysis', bg: '#D4A57422', icon: `<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" fill="#D4A574"/><ellipse cx="11.5" cy="14" rx="2" ry="2.5" fill="white"/><ellipse cx="20.5" cy="14" rx="2" ry="2.5" fill="white"/><path d="M11 20s2 2.5 5 2.5 5-2.5 5-2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>` },
+      { name: 'OpenAI / GPT-4', type: 'General Purpose LLM', bg: '#10a37f22', icon: `<svg viewBox="0 0 32 32" fill="none"><path d="M29 13.3a7.4 7.4 0 0 0-.5-6.1 7.5 7.5 0 0 0-8.1-3.6A7.5 7.5 0 0 0 15 1.3a7.5 7.5 0 0 0-7.2 5.2A7.5 7.5 0 0 0 2.9 10a7.5 7.5 0 0 0 .9 8.7 7.4 7.4 0 0 0 .5 6.1 7.5 7.5 0 0 0 8.1 3.6 7.5 7.5 0 0 0 5.7 1.8A7.5 7.5 0 0 0 25.2 25a7.5 7.5 0 0 0 5-3.6 7.5 7.5 0 0 0-.9-8.7h-.3z" fill="#10a37f"/><path d="M20 16l-3-5.3-3 5.3 3 5.3 3-5.3z" fill="white"/></svg>` },
+      { name: 'Google Gemini', type: 'Google DeepMind · Multimodal', bg: '#4285F422', icon: `<svg viewBox="0 0 32 32" fill="none"><path d="M16 4l3.5 9H28l-7.5 5.5 2.8 8.5L16 22l-7.3 5 2.8-8.5L4 13h8.5L16 4z" fill="url(#gem)"/><defs><linearGradient id="gem" x1="4" y1="4" x2="28" y2="27" gradientUnits="userSpaceOnUse"><stop stop-color="#4285F4"/><stop offset=".5" stop-color="#9B72CB"/><stop offset="1" stop-color="#EA4335"/></linearGradient></defs></svg>` },
+      { name: 'n8n / Make', type: 'Agentic Workflow Automation', bg: '#FF6D5A22', icon: `<svg viewBox="0 0 32 32" fill="none"><circle cx="8" cy="16" r="4" fill="#FF6D5A"/><circle cx="24" cy="8" r="4" fill="#FF6D5A"/><circle cx="24" cy="24" r="4" fill="#FF6D5A"/><path d="M12 15l9-5.5M12 17l9 5.5" stroke="#FF6D5A" stroke-width="1.5" stroke-linecap="round"/></svg>` },
+    ]
+  },
+  cloud: {
+    title: 'Cloud Providers',
+    tools: [
+      { name: 'AWS', type: 'Amazon Web Services', bg: '#FF990022', icon: `<svg viewBox="0 0 32 32" fill="none"><path d="M8 20l-5-4 5-4M24 12l5 4-5 4M19 7l-6 18" stroke="#FF9900" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
+      { name: 'Google Cloud', type: 'GCP · ML & Scalable Infra', bg: '#4285F422', icon: `<svg viewBox="0 0 32 32" fill="none"><path d="M16 6a10 10 0 0 1 9.9 8.5H28A12 12 0 0 0 4.1 11l3.1 3.1A10 10 0 0 1 16 6z" fill="#4285F4"/><path d="M4 16A12 12 0 0 0 16 28v-3.3A8.7 8.7 0 0 1 7.3 16H4z" fill="#34A853"/><path d="M28 16h-3.3a8.7 8.7 0 0 1-8.7 8.7V28A12 12 0 0 0 28 16z" fill="#EA4335"/><circle cx="16" cy="16" r="4" fill="#FBBC05"/></svg>` },
+      { name: 'Microsoft Azure', type: 'Enterprise Cloud Platform', bg: '#0078D422', icon: `<svg viewBox="0 0 32 32" fill="none"><path d="M17.5 4L6 24h10l3-6h7L17.5 4z" fill="#0078D4"/><path d="M17.5 4l7 14h-5l3 6H8L17.5 4z" fill="#0078D4" opacity=".5"/></svg>` },
+    ]
+  },
+  api: {
+    title: 'API & Integration Layer',
+    tools: [
+      { name: 'REST / GraphQL APIs', type: 'HTTP · JSON · OpenAPI Specs', bg: '#6366f122', icon: `<svg viewBox="0 0 32 32" fill="none"><path d="M10 12l-4 4 4 4M22 12l4 4-4 4M14 24l4-16" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
+      { name: 'Zapier', type: 'No-code Workflow Integration', bg: '#FF4A0022', icon: `<svg viewBox="0 0 32 32" fill="none"><path d="M16 3l2.7 9h9.3L20 17.4l2.7 9L16 21l-6.7 5.4 2.7-9L4 12h9.3L16 3z" fill="#FF4A00"/></svg>` },
+      { name: 'Make (Integromat)', type: 'Visual Automation Builder', bg: '#6D00CC22', icon: `<svg viewBox="0 0 32 32" fill="none"><circle cx="6" cy="16" r="4" fill="#6D00CC"/><circle cx="16" cy="6" r="4" fill="#6D00CC" opacity=".75"/><circle cx="26" cy="16" r="4" fill="#6D00CC" opacity=".5"/><circle cx="16" cy="26" r="4" fill="#6D00CC" opacity=".25"/><path d="M10 14l4-7M22 14l-4-7M10 18l4 7M22 18l-4 7" stroke="#6D00CC" stroke-width="1.3" stroke-linecap="round"/></svg>` },
+      { name: 'Webhooks', type: 'Real-time Event Triggers', bg: '#FF5A5F22', icon: `<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="7" r="3" fill="#FF5A5F"/><path d="M16 10v5" stroke="#FF5A5F" stroke-width="2" stroke-linecap="round"/><path d="M5 19c0-3 2-6 6-7.5M27 19c0-3-2-6-6-7.5" stroke="#FF5A5F" stroke-width="1.5" stroke-linecap="round"/><path d="M5 19c0 4 4.5 7 11 7s11-3 11-7" stroke="#FF5A5F" stroke-width="1.5" stroke-linecap="round"/></svg>` },
+    ]
+  },
+  automation: {
+    title: 'Automation Tooling',
+    tools: [
+      { name: 'n8n', type: 'Open-source Workflow Engine', bg: '#EA4B7122', icon: `<svg viewBox="0 0 32 32" fill="none"><circle cx="8" cy="16" r="4.5" fill="#EA4B71"/><circle cx="24" cy="8" r="4.5" fill="#EA4B71"/><circle cx="24" cy="24" r="4.5" fill="#EA4B71"/><path d="M12.2 14.6l8-5.2M12.2 17.4l8 5.2" stroke="#EA4B71" stroke-width="1.5" stroke-linecap="round"/></svg>` },
+      { name: 'Zendesk Automation', type: 'Trigger & Macro Workflows', bg: '#03363D22', icon: `<svg viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="11" height="11" rx="2" fill="#03363D"/><rect x="17" y="4" width="11" height="11" rx="2" fill="#03363D" opacity=".65"/><rect x="4" y="17" width="11" height="11" rx="2" fill="#03363D" opacity=".4"/><path d="M22.5 17v11M17 22.5h11" stroke="#03363D" stroke-width="2.5" stroke-linecap="round"/></svg>` },
+      { name: 'Python', type: 'Custom Automation Scripting', bg: '#3776AB22', icon: `<svg viewBox="0 0 32 32" fill="none"><path d="M16 3C10.5 3 11 5.5 11 5.5V8h9v1.5H8S4 9 4 14s3.5 5.5 3.5 5.5H9v-2.7S8.8 14 11 14h8s3-.1 3-3V6S22.5 3 16 3z" fill="#3776AB"/><circle cx="13" cy="6" r="1.2" fill="white"/><path d="M16 29c5.5 0 5-2.5 5-2.5V24h-9v-1.5h12S28 23 28 18s-3.5-5.5-3.5-5.5H23v2.7S23.2 18 21 18h-8s-3 .1-3 3v5S9.5 29 16 29z" fill="#FFD43B"/><circle cx="19" cy="26" r="1.2" fill="white"/></svg>` },
+    ]
+  },
+  data: {
+    title: 'Data & Analytics',
+    tools: [
+      { name: 'BigQuery', type: 'Google · Cloud Data Warehouse', bg: '#4285F422', icon: `<svg viewBox="0 0 32 32" fill="none"><path d="M16 3L5 8.5v15L16 29l11-5.5v-15L16 3z" fill="none" stroke="#4285F4" stroke-width="1.5"/><path d="M5 8.5l11 5.5 11-5.5M16 14v15" stroke="#4285F4" stroke-width="1.5" stroke-linecap="round"/></svg>` },
+      { name: 'Looker / Tableau', type: 'BI Dashboards & Reporting', bg: '#E8762D22', icon: `<svg viewBox="0 0 32 32" fill="none"><rect x="3" y="19" width="6" height="10" rx="1.5" fill="#E8762D"/><rect x="13" y="12" width="6" height="17" rx="1.5" fill="#E8762D" opacity=".75"/><rect x="23" y="4" width="6" height="25" rx="1.5" fill="#E8762D" opacity=".5"/></svg>` },
+      { name: 'Airtable', type: 'Structured Data & Ops', bg: '#2D7FF922', icon: `<svg viewBox="0 0 32 32" fill="none"><rect x="3" y="3" width="12" height="7" rx="2" fill="#2D7FF9"/><rect x="17" y="3" width="12" height="7" rx="2" fill="#2D7FF9" opacity=".7"/><rect x="3" y="13" width="12" height="7" rx="2" fill="#2D7FF9" opacity=".5"/><rect x="17" y="13" width="12" height="7" rx="2" fill="#2D7FF9" opacity=".3"/><rect x="3" y="23" width="12" height="6" rx="2" fill="#2D7FF9" opacity=".2"/></svg>` },
+    ]
+  },
+  workflows: {
+    title: 'Intelligent Workflow Stack',
+    tools: [
+      { name: 'Zendesk AI Suite', type: 'AI-Powered CX Automation', bg: '#03363D22', icon: `<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" fill="#03363D"/><path d="M10 16l4 4 8-8" stroke="#62D84E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
+      { name: 'Custom LLM Pipelines', type: 'Bespoke AI Workflow Design', bg: '#c084fc22', icon: `<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="#c084fc" stroke-width="1.5"/><path d="M11 11.5C11 9.6 13 8 16 8s5 1.6 5 3.5c0 1.6-1.3 3-3 3.5L18 20" stroke="#c084fc" stroke-width="1.8" stroke-linecap="round"/><circle cx="18" cy="22" r="1.5" fill="#c084fc"/></svg>` },
+      { name: 'Ops Monitoring', type: 'Real-time Alerts & Reporting', bg: '#34d39922', icon: `<svg viewBox="0 0 32 32" fill="none"><path d="M4 23l6-10 5 5 5-8 6 6" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 28h24" stroke="#34d399" stroke-width="1.5" stroke-linecap="round"/></svg>` },
+    ]
+  },
+  outcome: {
+    title: 'Outcomes Delivered',
+    tools: [
+      { name: '87% Faster Resolution', type: 'JustPark · CX Transformation', bg: '#FF5A5F22', icon: `<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="#FF5A5F" stroke-width="1.5"/><path d="M16 9v7l4 2.5" stroke="#FF5A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
+      { name: 'CSAT 53 → 81%', type: 'Customer Satisfaction Uplift', bg: '#4ade8022', icon: `<svg viewBox="0 0 32 32" fill="none"><path d="M4 22l7-10 5 5 5-8 7 7" stroke="#4ade80" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
+      { name: '~£90k Annual Savings', type: 'Cost Efficiency at Scale', bg: '#fbbf2422', icon: `<svg viewBox="0 0 32 32" fill="none"><path d="M16 4v24M21 8H13.5a4.5 4.5 0 0 0 0 9h5a4.5 4.5 0 0 1 0 9H8" stroke="#fbbf24" stroke-width="1.8" stroke-linecap="round"/></svg>` },
+    ]
+  }
+};
+
+// Popup
+const popup = document.getElementById('nodePopup');
+const overlay = document.getElementById('popupOverlay');
+const popupTitle = document.getElementById('popupTitle');
+const popupTools = document.getElementById('popupTools');
+let activeNode = null;
+
+function openPopup(node, key) {
+  const d = nodeData[key]; if (!d) return;
+  popupTitle.textContent = d.title;
+  popupTools.innerHTML = d.tools.map(t => `
+    <div class="popup-tool">
+      <div class="popup-tool-logo" style="background:${t.bg}">${t.icon}</div>
+      <div><div class="popup-tool-name">${t.name}</div><div class="popup-tool-type">${t.type}</div></div>
+    </div>`).join('');
+  const r = node.getBoundingClientRect();
+  let left = r.left + r.width / 2 - 144;
+  let top = r.bottom + 12;
+  if (left + 288 > window.innerWidth - 12) left = window.innerWidth - 300;
+  if (left < 12) left = 12;
+  if (top + 320 > window.innerHeight - 12) top = r.top - 320 - 12;
+  popup.style.left = left + 'px';
+  popup.style.top = top + 'px';
+  popup.classList.add('active');
+  overlay.classList.add('active');
+  activeNode = node;
+}
+function closePopup() {
+  popup.classList.remove('active');
+  overlay.classList.remove('active');
+  activeNode = null;
+}
+document.getElementById('popupClose').addEventListener('click', closePopup);
+overlay.addEventListener('click', closePopup);
+document.querySelectorAll('.diagram-node').forEach(n => {
+  n.addEventListener('click', e => {
+    e.stopPropagation();
+    if (activeNode === n) { closePopup(); return; }
+    openPopup(n, n.dataset.node);
+  });
+});
+
+// Cursor
+const cursor = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function anim(){ rx+=(mx-rx)*.18; ry+=(my-ry)*.18; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(anim); })();
+document.querySelectorAll('a,button,.service-card,.flow-step,.diagram-node').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.classList.add('hover');ring.classList.add('hover');});
+  el.addEventListener('mouseleave',()=>{cursor.classList.remove('hover');ring.classList.remove('hover');});
+});
+
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+// Reveal
+const revObs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');revObs.unobserve(e.target);} }), {threshold:.12});
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+// Diagram stagger
+const nodeObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ document.querySelectorAll('.diagram-node').forEach((n,i)=>setTimeout(()=>n.classList.add('visible'),i*90)); nodeObs.disconnect(); } });
+}, {threshold:.2});
+const flow = document.querySelector('.diagram-flow');
+if(flow) nodeObs.observe(flow);
+
+// Count up
+function countUp(el) {
+  const t=parseInt(el.dataset.target),d=1800,s=performance.now();
+  (function tick(now){ const p=Math.min((now-s)/d,1),e=1-Math.pow(1-p,3); el.textContent=Math.round(e*t); if(p<1)requestAnimationFrame(tick); })(s);
+}
+const cObs = new IntersectionObserver(entries => entries.forEach(e=>{ if(e.isIntersecting){e.target.querySelectorAll('.count').forEach(countUp);cObs.unobserve(e.target);} }), {threshold:.5});
+const stats = document.querySelector('.stats-row');
+if(stats) cObs.observe(stats);
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => { const t=document.querySelector(a.getAttribute('href')); if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});} });
+});
+</script>
 </body>
 </html>

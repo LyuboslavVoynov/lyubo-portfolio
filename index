@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyubo Voynov | AI & Operations Automation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="hero-bg"></div>
+
+    <header>
+        <div class="container header-flex">
+            <div class="header-text">
+                <h1>Lyubo Voynov</h1>
+                <p class="subtitle">Intelligent Workflows. Operational Excellence.</p>
+                <p class="tagline">Outcomes-first automation for customer operations and internal workflows</p>
+            </div>
+            <!-- Placeholder for your headshot as seen in Lyubo_Diagram_2.png -->
+            <div class="profile-circle"></div>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <section class="intro">
+            <div class="glass-card highlight">
+                <p>I help scaling companies improve customer operations and internal workflows through AI-powered automation systems, workflow redesign, and operational intelligence.</p>
+            </div>
+        </section>
+
+        <section class="outcomes">
+            <div class="outcome-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Resolution Times</span>
+                    <strong class="stat-value">87% reduction</strong>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">CSAT Improvement</span>
+                    <strong class="stat-value">53% → 81%</strong>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Annual Savings</span>
+                    <strong class="stat-value">~£90k</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="services">
+            <h2 class="section-title">What I Help With</h2>
+            <div class="service-grid">
+                <div class="service-box">
+                    <div class="icon-glow purple"></div>
+                    <h4>AI-Enabled Workflow Automation</h4>
+                    <p>Automation that removes manual effort and creates reliable, scalable execution.</p>
+                </div>
+                <div class="service-box">
+                    <div class="icon-glow blue"></div>
+                    <h4>Customer Operations</h4>
+                    <p>Support workflow architecture, automation design, and AI-assisted operations that scale.</p>
+                </div>
+                <div class="service-box">
+                    <div class="icon-glow blue"></div>
+                    <h4>Operational Systems</h4>
+                    <p>From fragmented processes to structured systems with clear ownership and visibility.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured">
+            <h2 class="section-title">Featured Work</h2>
+            <div class="glass-card project">
+                <h3>JustPark × Zendesk — AI-Powered CX Transformation</h3>
+                <p>Operational redesign and AI-enabled workflow automation focused on improving customer operations and scaling support systems.</p>
+                <a href="#" class="btn-glow">View Project Details</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>voynov.lyuboslav@gmail.com • <a href="https://www.linkedin.com/in/lyubovoynov/">LinkedIn</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -35,15 +35,31 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('.reveal').forEach(x=>rev.observe(x));
 
   // detail dialogs
+  let lockedScrollY=0, openDialogCount=0;
+  const lockPageScroll=()=>{
+    if(openDialogCount++) return;
+    lockedScrollY=window.scrollY;
+    document.documentElement.classList.add('modal-open');
+    document.body.classList.add('modal-open');
+    document.body.style.top=`-${lockedScrollY}px`;
+  };
+  const unlockPageScroll=()=>{
+    if(openDialogCount===0||--openDialogCount) return;
+    document.documentElement.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
+    document.body.style.top='';
+    window.scrollTo(0,lockedScrollY);
+  };
   document.querySelectorAll('[data-dialog]').forEach(trigger=>{
     trigger.addEventListener('click',()=>{
       const dialog=document.getElementById(trigger.dataset.dialog);
-      if(dialog&&typeof dialog.showModal==='function') dialog.showModal();
+      if(dialog&&typeof dialog.showModal==='function'){ dialog.showModal(); lockPageScroll(); }
     });
   });
   document.querySelectorAll('.detail-modal').forEach(dialog=>{
     dialog.querySelectorAll('.modal-close').forEach(button=>button.addEventListener('click',()=>dialog.close()));
     dialog.addEventListener('click',event=>{ if(event.target===dialog) dialog.close(); });
+    dialog.addEventListener('close',unlockPageScroll);
   });
 
   // contact form (Web3Forms)

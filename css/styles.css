@@ -16,6 +16,8 @@ html{scroll-behavior:smooth;}
   --shadow-lg:0 24px 64px rgba(27,42,74,0.16);
 }
 body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text-dark);overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased;}
+html.modal-open{overscroll-behavior:none;}
+body.modal-open{position:fixed;width:100%;overflow:hidden;}
 
 /* ─── UTILS ─── */
 .inner{max-width:1140px;margin:0 auto;padding:0 24px;}
@@ -205,7 +207,7 @@ nav.scrolled{box-shadow:var(--shadow-md);}
 .stack-minimal dd{margin:0;color:var(--text-body);font-size:.88rem;font-weight:300;line-height:1.65;}
 
 /* ─── MODALS ─── */
-.detail-modal{width:min(760px,calc(100% - 32px));max-height:min(780px,calc(100% - 32px));margin:auto;border:0;border-radius:18px;background:var(--white);color:var(--text-dark);box-shadow:var(--shadow-lg);overflow-y:auto;}
+.detail-modal{width:min(760px,calc(100% - 32px));max-height:min(780px,calc(100% - 32px));margin:auto;border:0;border-radius:18px;background:var(--white);color:var(--text-dark);box-shadow:var(--shadow-lg);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
 .detail-modal::backdrop{background:rgba(15,30,56,.72);backdrop-filter:blur(4px);}
 .modal-shell{padding:30px 34px 38px;}
 .modal-top{position:sticky;top:-30px;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:32px;padding:30px 0 16px;background:var(--white);border-bottom:1px solid var(--border-light);}

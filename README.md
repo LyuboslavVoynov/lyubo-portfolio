@@ -1,26 +1,16 @@
-Lyubo Voynov | AI & Operations Automation Portfolio
-This repository contains the source code for my professional portfolio, hosted at lyubovoynov.com.
+# Lyubo Voynov portfolio
 
-🚀 Overview
-The site is a clean, "outcomes-first" landing page designed to showcase my work in customer operations, AI-powered automation, and operational intelligence. The design is inspired by high-level system architecture diagrams.
+The source for [lyubovoynov.com](https://lyubovoynov.com), a lightweight static portfolio focused on AI implementation, automation, and Customer Operations.
 
-🛠️ Tech Stack
-HTML5/CSS3: Custom-built with a focus on "glassmorphism" and responsive design.
+## Structure
 
-Deployment: Hosted via GitHub Pages.
+- `index.html` — page structure and content
+- `css/styles.css` — site styles and responsive rules
+- `js/main.js` — navigation, motion, counters, and form behaviour
+- `assets/images` — photographic and social-preview assets
+- `assets/icons` — site icons and logo
+- `CNAME` — GitHub Pages custom-domain configuration
 
-Domain: Custom DNS routing through lyubovoynov.com.
+## Development and deployment
 
-📂 File Structure
-index.html: Main structure and content of the portfolio.
-
-style.css: Custom styling featuring a midnight navy aesthetic and "glow" accents inspired by technical architecture icons.
-
-CNAME: Configuration file for custom domain mapping.
-
-📈 Core Focus Areas
-Intelligent Workflows: AI-powered systems that adapt and improve.
-
-Operational Excellence: Delivering measurable business impact and improved efficiency.
-
-System Integration: Connecting CRM, AI Agents, and Cloud Providers via robust API architectures.
+The site has no build step or runtime dependencies. Serve the repository root with any static HTTP server for local preview. GitHub Pages publishes the root `index.html`; keep `CNAME` in place when deploying.

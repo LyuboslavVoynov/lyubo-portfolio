@@ -27,6 +27,46 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  const caseOpeners = document.querySelectorAll('[data-case-modal]');
+  let scrollY = 0;
+  let modalOpener = null;
+
+  const lockPageScroll = () => {
+    scrollY = window.scrollY;
+    document.body.style.top = `-${scrollY}px`;
+    document.body.classList.add('modal-open');
+  };
+
+  const unlockPageScroll = () => {
+    document.body.classList.remove('modal-open');
+    document.body.style.top = '';
+    window.scrollTo(0, scrollY);
+  };
+
+  caseOpeners.forEach((opener) => {
+    const dialog = document.querySelector(`#${opener.dataset.caseModal}`);
+    if (!dialog) return;
+
+    opener.addEventListener('click', () => {
+      modalOpener = opener;
+      lockPageScroll();
+      dialog.showModal();
+      window.dispatchEvent(new CustomEvent('portfolio:interaction', {
+        detail: { event: `open_${opener.dataset.caseModal}` }
+      }));
+    });
+
+    dialog.querySelector('.modal-close')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('close', () => {
+      unlockPageScroll();
+      modalOpener?.focus();
+      modalOpener = null;
+    });
+  });
+
   const form = document.querySelector('#contactForm');
   if (!form) return;
 

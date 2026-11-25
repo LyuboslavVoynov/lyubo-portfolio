@@ -75,11 +75,33 @@
         <div class="project-list">
           <article class="project-entry">
             <div class="project-index">01 / Product exploration<span>Matchbound<br>Live application</span></div>
-            <div class="project-copy"><h3>Matchbound</h3><p>A European football-trip discovery app. It starts with a fixture and turns it into a more useful way to choose a destination and plan a weekend around it.</p><div class="stack"><span>Next.js</span><span>React</span><span>TypeScript</span><span>Tailwind</span><span>Drizzle ORM</span><span>PostgreSQL</span></div><div class="project-links"><a href="https://matchbound.vercel.app" target="_blank" rel="noopener">Open live product</a></div></div>
+            <div class="project-copy">
+              <h3>Matchbound</h3>
+              <p>A football-trip discovery product that starts with a fixture, reveals a destination and creates a saved weekend result with stadium and local beer context.</p>
+              <div class="stack"><span>Next.js 15</span><span>React 19</span><span>TypeScript</span><span>Tailwind 4</span><span>Drizzle ORM</span><span>PostgreSQL</span></div>
+              <dl class="product-details">
+                <div><dt>Data &amp; APIs</dt><dd>football-data.org fixtures and teams, supported by reviewed venue, destination and beer datasets.</dd></div>
+                <div><dt>Storage</dt><dd>PostgreSQL through Drizzle ORM, with Supabase Storage for reviewed creative assets.</dd></div>
+                <div><dt>Deployment</dt><dd>Server-rendered Next.js on Vercel with environment-based production configuration.</dd></div>
+                <div><dt>Quality</dt><dd>Vitest coverage and Playwright journeys across desktop, mobile and production smoke tests.</dd></div>
+              </dl>
+              <div class="project-links"><a href="https://matchbound.vercel.app" target="_blank" rel="noopener">Open live product</a></div>
+            </div>
           </article>
           <article class="project-entry">
             <div class="project-index">02 / Data product<span>Grid / Alive<br>Live application</span></div>
-            <div class="project-copy"><h3>Grid / Alive</h3><p>An interactive, cinematic view of Great Britain’s electricity system. It combines observed generation, demand and carbon context with regional exploration and practical household energy choices.</p><div class="stack"><span>Next.js</span><span>React</span><span>TypeScript</span><span>MapLibre</span><span>Zod</span><span>Elexon + NESO</span></div><div class="project-links"><a href="https://grid-alive.vercel.app" target="_blank" rel="noopener">Open live product</a></div></div>
+            <div class="project-copy">
+              <h3>Grid / Alive</h3>
+              <p>A one-page interactive view of Britain’s electricity system, combining generation, demand, carbon forecasts, international transfers and practical household energy tools.</p>
+              <div class="stack"><span>Next.js 16</span><span>React 19</span><span>TypeScript</span><span>MapLibre GL</span><span>Zod</span><span>Vitest</span></div>
+              <dl class="product-details">
+                <div><dt>Live APIs</dt><dd>Elexon electricity data, NESO carbon and regional forecasts, and public Octopus tariff information.</dd></div>
+                <div><dt>Public data</dt><dd>DESNZ generation and renewable registers, NESO regional boundaries and Natural Earth geography.</dd></div>
+                <div><dt>Deployment</dt><dd>Next.js on Vercel with self-hosted map assets, bounded server caching and no paid map service.</dd></div>
+                <div><dt>Architecture</dt><dd>No sign-in or database; validated upstream data, local browser tools and graceful unavailable states.</dd></div>
+              </dl>
+              <div class="project-links"><a href="https://grid-alive.vercel.app" target="_blank" rel="noopener">Open live product</a></div>
+            </div>
           </article>
         </div>
       </div>

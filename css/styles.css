@@ -15,4 +15,18 @@
 @media(max-width:680px){.project-entry{min-height:0;padding:1.5rem;border-radius:24px}.project-copy{padding-top:1.45rem}.project-copy h3{font-size:3rem}.project-links{margin-top:1.7rem;padding-top:0}.case-hero{padding:4.2rem 0 3.5rem}.case-hero h1{font-size:clamp(3rem,14vw,4.5rem)}.case-facts{align-items:flex-start;flex-direction:column}.case-layout{gap:2.3rem}.case-aside{grid-template-columns:1fr 1fr;padding:.7rem}.case-content>p{font-size:1rem}.case-cta{border-radius:22px}}
 .hero h1{font-size:clamp(2.85rem,5vw,5.05rem);letter-spacing:-.055em;line-height:.96}.lede{font-size:clamp(1rem,1.4vw,1.1rem)}.proof strong{font-size:clamp(1.6rem,2.6vw,2rem)}.section h2{font-size:clamp(2rem,3.3vw,3.25rem);letter-spacing:-.05em;line-height:1}.case-card h3{font-size:clamp(1.4rem,2.1vw,1.85rem);letter-spacing:-.045em}.case-metric{font-size:2rem}.project-copy h3{font-size:clamp(2.25rem,3.5vw,3.5rem);letter-spacing:-.05em;line-height:.96}.project-copy>p{font-size:.96rem;line-height:1.65}.product-details{display:grid;gap:0;margin:1.5rem 0 0}.product-details>div{display:grid;grid-template-columns:95px minmax(0,1fr);gap:.8rem;padding:.75rem 0;border-top:1px solid var(--line)}.product-details dt{color:var(--ink);font-size:.74rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.product-details dd{margin:0;color:var(--muted);font-size:.82rem;line-height:1.5}.contact h2{font-size:clamp(2rem,3.2vw,3.2rem);letter-spacing:-.05em;line-height:1}.case-modal h2{font-size:clamp(1.85rem,3vw,2.55rem);letter-spacing:-.05em;line-height:1}.case-hero h1{font-size:clamp(2.7rem,5.8vw,5rem);letter-spacing:-.055em;line-height:.96}.case-lede{font-size:clamp(1rem,1.5vw,1.12rem)}.case-content>h2{font-size:clamp(1.5rem,2.3vw,2rem)}.case-content>p{font-size:1rem}.case-cta h2{font-size:clamp(1.65rem,2.6vw,2.2rem)}
 @media(max-width:680px){.hero h1{font-size:clamp(2.55rem,10.5vw,3.55rem);letter-spacing:-.05em;line-height:.98}.section h2{font-size:clamp(1.9rem,8.5vw,2.45rem)}.project-copy h3{font-size:2.4rem}.product-details>div{grid-template-columns:1fr;gap:.25rem}.contact h2{font-size:2.4rem}.case-modal h2{font-size:2rem}.case-hero h1{font-size:clamp(2.55rem,11vw,3.5rem)}.case-content>h2{font-size:1.65rem}}
+
+/* Compact product proof: preserve the technical signal without turning each card into a spec sheet. */
+.project-entry{min-height:0}
+.project-copy{padding-top:1.35rem}
+.project-copy>p{margin-top:.75rem}
+.stack{gap:.32rem;margin-top:1rem}
+.stack span{padding:.28rem .46rem}
+.product-details{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:1.1rem;border-top:1px solid var(--line)}
+.product-details>div{display:block;padding:.65rem .55rem .65rem 0;border-top:0;border-bottom:1px solid var(--line)}
+.product-details>div:nth-child(even){padding-right:0;padding-left:.55rem;border-left:1px solid var(--line)}
+.product-details dt{font-size:.72rem}
+.product-details dd{margin:.2rem 0 0;font-size:.78rem;line-height:1.4}
+.project-links{padding-top:1.25rem}
+@media(max-width:680px){.product-details>div{display:block;grid-template-columns:none;gap:0}.project-links{margin-top:1.25rem}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}}
